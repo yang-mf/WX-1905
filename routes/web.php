@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/test/index','Test\TestController@index');
+Route::get('/phpinfo','Test\TestController@info');
