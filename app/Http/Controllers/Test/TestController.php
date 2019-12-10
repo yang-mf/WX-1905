@@ -38,6 +38,36 @@ class TestController extends Controller
         }
     }
 
+    public function receiv(){
+        $log_file="wx_log";
+        //将接收的数据记录到日志文件
+        $xml_str=file_get_contents("php://input");
+//        print_r($xml_str);
+        $data=date('Y-m-d H:i:s').$xml_str;
+        file_put_contents($log_file,$data,FILE_APPEND);//追加写
+
+        $xml_obj=simplexml_load_string($xml_str);
+//        dd($xml_obj);
+        $event=$xml_obj->Event;
+        if($event=='subscribe'){
+            $openid=$xml_obj->FromUserName;  //获取用户的openid
+            //获取用户信息
+            $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->access_token.'&openid='.$openid.'&lang=zh_CN';
+            $user_info=file_get_contents($url);
+
+
+        }
+    }
+
+
+    /*
+     * 获取用户的信息
+     * */
+    public function GetUserInfo()
+    {
+        $info = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.config('access_token').'&openid=OPENID&lang=zh_CN';
+    }
+
 
 
 }
